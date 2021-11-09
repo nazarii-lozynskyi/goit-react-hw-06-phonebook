@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 export default function Form() {
   return (
     <Box
-      sx={{ "& > :not(style)": { m: 1 }, marginTop: "20px" }}
+      sx={{ marginTop: "20px" }}
       component="form"
       onSubmit={(e) => {
         e.preventDefault();
@@ -18,6 +18,7 @@ export default function Form() {
             alignItems: "flex-end",
             width: 214,
             maxWidth: "100%",
+            marginBottom: "15px",
           }}
         >
           <AccountCircle sx={{ color: "primary.dark", mr: 1, my: 0.5 }} />
@@ -36,6 +37,7 @@ export default function Form() {
             alignItems: "flex-end",
             width: 214,
             maxWidth: "100%",
+            marginBottom: "15px",
           }}
         >
           <LocalPhone sx={{ color: "primary.dark", mr: 1, my: 0.5 }} />
@@ -48,7 +50,14 @@ export default function Form() {
         </Box>
       </Tooltip>
       <Tooltip title="Add contact" placement="left">
-        <Button variant="contained" type="submit" startIcon={<AddIcCall />}>
+        <Button
+          variant="contained"
+          type="submit"
+          startIcon={<AddIcCall />}
+          sx={{
+            marginBottom: "0px",
+          }}
+        >
           Add contact
         </Button>
       </Tooltip>
