@@ -8,8 +8,8 @@ export default function Header() {
         <Typography variant="h6" component="span" sx={{ flexGrow: 1 }}>
           Phone book
         </Typography>
-        <Icon color="inherit">
-          <ContactPhone />
+        <Icon color="inherit" sx={{ width: "60px", height: "60px" }}>
+          <ContactPhone sx={{ width: "100%", height: "100%" }} />
         </Icon>
       </Toolbar>
     </AppBar>
