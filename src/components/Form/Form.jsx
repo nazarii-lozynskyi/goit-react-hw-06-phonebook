@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 export default function Form() {
   return (
     <Box
-      sx={{ "& > :not(style)": { m: 1 } }}
+      sx={{ "& > :not(style)": { m: 1 }, marginTop: "20px" }}
       component="form"
       onSubmit={(e) => {
         e.preventDefault();
