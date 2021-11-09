@@ -8,68 +8,42 @@ import {
   ListItemText,
 } from "@mui/material";
 
+import { Transition } from "react-transition-group";
+
 import styles from "./Contact.module.css";
 
-export default function Contacts() {
+export default function Contacts({ contacts, onDeleteContact }) {
   return (
-    <List sx={{ bgcolor: "background.paper" }} className={styles.list}>
-      <ListItem
-        sx={{
-          borderColor: "primary.main",
-          border: 1,
-          borderRadius: 2,
-        }}
-        className={styles.item}
-      >
-        <ListItemAvatar>
-          <Avatar sx={{ bgcolor: "primary.dark" }}>
-            <AccountBox />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary="Nameggggggggg kjkjkjkjkjkjkjk"
-          secondary="Numberhhhhhhhhhhhhhhhhh"
-        />
-        <IconButton edge="end" aria-label="delete" sx={{ marginLeft: "40px" }}>
-          <Delete sx={{ color: "error.main" }} />
-        </IconButton>
-      </ListItem>
-
-      <ListItem
-        sx={{ borderColor: "primary.main", border: 1, borderRadius: 2 }}
-        className={styles.item}
-      >
-        <ListItemAvatar>
-          <Avatar sx={{ bgcolor: "primary.dark" }}>
-            <AccountBox />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary="Nameggggggggg kjkjkjkjkjkjkjk"
-          secondary="Numberhhhhhhhhhhhhhhhhh"
-        />
-        <IconButton edge="end" aria-label="delete" sx={{ marginLeft: "40px" }}>
-          <Delete sx={{ color: "error.main" }} />
-        </IconButton>
-      </ListItem>
-
-      <ListItem
-        sx={{ borderColor: "primary.main", border: 1, borderRadius: 2 }}
-        className={styles.item}
-      >
-        <ListItemAvatar>
-          <Avatar sx={{ bgcolor: "primary.dark" }}>
-            <AccountBox />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary="Nameggggggggg kjkjkjkjkjkjkjk"
-          secondary="Numberhhhhhhhhhhhhhhhhh"
-        />
-        <IconButton edge="end" aria-label="delete" sx={{ marginLeft: "40px" }}>
-          <Delete sx={{ color: "error.main" }} />
-        </IconButton>
-      </ListItem>
-    </List>
+    <>
+      <List sx={{ bgcolor: "background.paper" }} className={styles.list}>
+        {contacts.map(({ id, name, number }) => (
+          <ListItem
+            sx={{
+              borderColor: "primary.main",
+              border: 1,
+              borderRadius: 2,
+            }}
+            className={styles.item}
+            key={id}
+          >
+            <ListItemAvatar>
+              <Avatar sx={{ bgcolor: "primary.dark" }}>
+                <AccountBox />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={name} secondary={number} />
+            <IconButton
+              type="button"
+              edge="end"
+              aria-label="delete"
+              sx={{ marginLeft: "40px" }}
+              onClick={() => onDeleteContact(id)}
+            >
+              <Delete sx={{ color: "error.main" }} />
+            </IconButton>
+          </ListItem>
+        ))}
+      </List>
+    </>
   );
 }
