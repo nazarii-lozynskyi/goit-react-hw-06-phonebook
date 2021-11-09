@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 import { InputBase, Typography, Box } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
@@ -44,7 +46,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchContactForm() {
+export default function SearchContactForm({
+  onChange,
+  value,
+  filterId = uuidv4(),
+}) {
   return (
     <Box
       sx={{
@@ -74,6 +80,11 @@ export default function SearchContactForm() {
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
+          type="text"
+          name="filter"
+          value={value}
+          onChange={onChange}
+          id={filterId}
         />
       </Search>
     </Box>
