@@ -5,3 +5,16 @@
 .item:not(:last-child) {
   margin-bottom: 10px;
 }
+
+.item.entering {
+  opacity: 1;
+}
+.item.entered {
+  opacity: 1;
+}
+.item.exiting {
+  opacity: 0;
+}
+.item.exited {
+  opacity: 0;
+}
