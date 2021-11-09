@@ -4,7 +4,13 @@ import { Box } from "@mui/system";
 
 export default function Form() {
   return (
-    <Box sx={{ "& > :not(style)": { m: 1 } }} component="form">
+    <Box
+      sx={{ "& > :not(style)": { m: 1 } }}
+      component="form"
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
+    >
       <Tooltip title="Enter name" placement="left">
         <Box
           sx={{
@@ -42,7 +48,7 @@ export default function Form() {
         </Box>
       </Tooltip>
       <Tooltip title="Add contact" placement="left">
-        <Button variant="contained" startIcon={<AddIcCall />}>
+        <Button variant="contained" type="submit" startIcon={<AddIcCall />}>
           Add contact
         </Button>
       </Tooltip>
