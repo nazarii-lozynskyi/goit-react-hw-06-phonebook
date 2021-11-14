@@ -1,3 +1,8 @@
+//import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import actions from "../../redux/phonebook/phonebook-actions";
+
 import { AccountBox, Delete } from "@mui/icons-material";
 import {
   Avatar,
@@ -12,7 +17,22 @@ import { Transition } from "react-transition-group";
 
 import styles from "./Contact.module.css";
 
-export default function Contacts({ contacts, onDeleteContact }) {
+const getVisibleContacts = (contacts, filter) => {
+  const normalizedFilter = filter.toLowerCase().trim();
+
+  return contacts.filter(
+    (contact) =>
+      contact.name.toLowerCase().includes(normalizedFilter) ||
+      contact.number.includes(filter)
+  );
+};
+
+function Contacts() {
+  const contacts = useSelector(({ contacts: { items, filter } }) =>
+    getVisibleContacts(items, filter)
+  );
+  const dispatch = useDispatch();
+
   return (
     <>
       <List sx={{ bgcolor: "background.paper" }} className={styles.list}>
@@ -37,7 +57,8 @@ export default function Contacts({ contacts, onDeleteContact }) {
               edge="end"
               aria-label="delete"
               sx={{ marginLeft: "40px" }}
-              onClick={() => onDeleteContact(id)}
+              onClick={() => dispatch(actions.deleteContact(id))}
+              id={id}
             >
               <Delete sx={{ color: "error.main" }} />
             </IconButton>
@@ -47,3 +68,25 @@ export default function Contacts({ contacts, onDeleteContact }) {
     </>
   );
 }
+
+//const getVisibleContacts = (contacts, filter) => {
+//  const normalizedFilter = filter.toLowerCase().trim();
+
+//  return contacts.filter(
+//    (contact) =>
+//      contact.name.toLowerCase().includes(normalizedFilter) ||
+//      contact.number.includes(filter)
+//  );
+//};
+
+//const mapStateToProps = ({ contacts: { items, filter } }) => ({
+//  contacts: getVisibleContacts(items, filter),
+//});
+
+//const mapDispatchToProps = (dispatch) => ({
+//  deleteContact: (id) => dispatch(actions.deleteContact(id)),
+//});
+
+//export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
+
+export default Contacts;
