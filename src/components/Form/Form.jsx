@@ -1,27 +1,59 @@
 import { useState } from "react";
 
+//import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
+
+import { v4 as uuidv4 } from "uuid";
+
+import PropTypes from "prop-types";
+
+import actions from "../../redux/phonebook/phonebook-actions";
+
 import { AccountCircle, AddIcCall, LocalPhone } from "@mui/icons-material";
 import { Button, TextField, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
 
-export default function Form({ onSubmit }) {
-  const [state, setState] = useState({ name: "", number: "" });
+function Form() {
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
+
+  const dispatch = useDispatch();
+  const onSubmit = (name, number) => dispatch(actions.addContact(name, number));
 
   const handleChange = (event) => {
     const { name, value } = event.currentTarget;
-    setState((prevState) => ({ ...prevState, [name]: value }));
+
+    switch (name) {
+      case "name":
+        setName(value);
+        break;
+
+      case "number":
+        setNumber(value);
+        break;
+
+      default:
+        return;
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    onSubmit(state);
+    const contact = {
+      id: uuidv4(),
+      name: name,
+      number: number,
+    };
+
+    onSubmit(contact);
 
     reset();
   };
 
   const reset = () => {
-    setState({ name: "", number: "" });
+    setName("");
+    setNumber("");
   };
 
   return (
@@ -46,7 +78,7 @@ export default function Form({ onSubmit }) {
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
             required
-            value={state.name}
+            value={name}
             onChange={handleChange}
           />
         </Box>
@@ -71,7 +103,7 @@ export default function Form({ onSubmit }) {
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
             required
-            value={state.number}
+            value={number}
             onChange={handleChange}
           />
         </Box>
@@ -91,3 +123,20 @@ export default function Form({ onSubmit }) {
     </Box>
   );
 }
+
+Form.propTypes = {
+  name: PropTypes.string,
+  number: PropTypes.string,
+};
+
+//const mapStateToProps = (state) => ({
+//  contacts: state.contacts.items,
+//});
+
+//const mapDispatchToProps = (dispatch) => ({
+//  addContact: (name, number) => dispatch(actions.addContact(name, number)),
+//});
+
+//export default connect(mapStateToProps, mapDispatchToProps)(Form);
+
+export default Form;
