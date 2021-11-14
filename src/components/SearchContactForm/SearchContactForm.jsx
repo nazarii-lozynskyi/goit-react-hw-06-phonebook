@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import actions from "./../../redux/phonebook/phonebook-actions";
 
-import { InputBase, Typography, Box } from "@mui/material";
+import Stats from "../Stats";
+
+import { InputBase, Typography, Box, Badge, IconButton } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
+import ContactPage from "@mui/icons-material/ContactPage";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -93,6 +96,12 @@ function SearchContactForm() {
           onChange={changeFilter}
         />
       </Search>
+
+      <IconButton size="medium" color="inherit">
+        <Badge badgeContent={<Stats />} color="error">
+          <ContactPage />
+        </Badge>
+      </IconButton>
     </Box>
   );
 }
