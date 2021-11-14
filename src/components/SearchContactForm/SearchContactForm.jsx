@@ -1,4 +1,7 @@
-import { v4 as uuidv4 } from "uuid";
+//import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import actions from "./../../redux/phonebook/phonebook-actions";
 
 import { InputBase, Typography, Box } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
@@ -46,11 +49,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchContactForm({
-  onChange,
-  value,
-  filterId = uuidv4(),
-}) {
+function SearchContactForm() {
+  const filter = useSelector((state) => state.filter);
+
+  const dispatch = useDispatch();
+  const changeFilter = (event) =>
+    dispatch(actions.changeFilter(event.target.value));
+
   return (
     <Box
       sx={{
@@ -80,13 +85,25 @@ export default function SearchContactForm({
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
-          type="text"
+          type="search"
           name="filter"
-          value={value}
-          onChange={onChange}
-          id={filterId}
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          required
+          value={filter}
+          onChange={changeFilter}
         />
       </Search>
     </Box>
   );
 }
+
+//const mapStateToProps = (state) => ({
+//  filter: state.contacts.filter,
+//});
+//const mapDispatchToProps = (dispatch) => ({
+//  changeFilter: (value) => dispatch(actions.changeFilter(value.target.value)),
+//});
+
+//export default connect(mapStateToProps, mapDispatchToProps)(SearchContactForm);
+
+export default SearchContactForm;
