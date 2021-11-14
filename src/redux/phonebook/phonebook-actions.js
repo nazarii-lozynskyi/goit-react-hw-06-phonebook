@@ -2,7 +2,7 @@ import { createAction } from "@reduxjs/toolkit";
 
 import { v4 as uuidv4 } from "uuid";
 
-import actionTypes from "./phonebook-types";
+//import actionTypes from "./phonebook-types";
 
 //const addContact = ({ name, number }) => ({
 //  type: actionTypes.ADD,
@@ -31,15 +31,18 @@ import actionTypes from "./phonebook-types";
 //  payload: value,
 //});
 
-const addContact = createAction(actionTypes.ADD, ({ name, number }) => ({
-  payload: {
-    name,
-    number,
-    id: uuidv4(),
-  },
-}));
-const deleteContact = createAction(actionTypes.DELETE);
-const changeFilter = createAction(actionTypes.CHANGE_FILTER);
+const addContact = createAction("contacts/add", ({ name, number }) => {
+  return {
+    payload: {
+      name,
+      number,
+      id: uuidv4(),
+    },
+  };
+});
+
+const deleteContact = createAction("contacts/delete");
+const changeFilter = createAction("contacts/ChangeFilter");
 
 const phoneBookActions = { addContact, deleteContact, changeFilter };
 
