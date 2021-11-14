@@ -61,7 +61,7 @@ const add = (state, action) => {
     return state;
   }
   const addContacts = [...state, action.payload];
-  window.localStorage.setItem("Contacts", JSON.stringify(addContacts));
+  //window.localStorage.setItem("Contacts", JSON.stringify(addContacts));
   return addContacts;
 };
 
@@ -69,7 +69,7 @@ const del = (state, action) => {
   const deleteContacts = [
     ...state.filter((contact) => contact.id !== action.payload),
   ];
-  window.localStorage.setItem("Contacts", JSON.stringify(deleteContacts));
+  //window.localStorage.setItem("Contacts", JSON.stringify(deleteContacts));
   return deleteContacts;
 };
 
