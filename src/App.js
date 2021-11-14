@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import actions from "./redux/phonebook/phonebook-actions";
 
-import { v4 as uuidv4 } from "uuid";
-
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Contacts from "./components/Contacts";
@@ -13,53 +12,20 @@ import SearchContactForm from "./components/SearchContactForm";
 import { Container } from "@mui/material";
 import "./App.css";
 
-function App() {
-  const [contacts, setContacts] = useState(
-    () => JSON.parse(localStorage.getItem("Contacts")) ?? []
-  );
-  const [filter, setFilter] = useState("");
-
-  useEffect(() => {
-    localStorage.setItem("Contacts", JSON.stringify(contacts));
-  }, [contacts]);
-
-  const addContacts = (data) => {
-    const contact = {
-      id: uuidv4(),
-      ...data,
-    };
-
-    const checkForDuplicationOfContacts = contacts.find(
-      (contact) => contact.name.toLowerCase() === data.name.toLowerCase()
-    );
-
-    if (checkForDuplicationOfContacts) {
-      toast.error(`${data.name} is already in contacts`);
-    } else {
-      setContacts((prevState) => [contact, ...prevState]);
-    }
+function App({ items, filter, addContact, deleteContact, onChangeFilter }) {
+  const searchContact = (value) => {
+    return items.filter((contact) => {
+      return contact.name.toLocaleLowerCase().includes(value);
+    });
   };
-
-  const deleteContact = (contactId) => {
-    setContacts(contacts.filter((contact) => contact.id !== contactId));
-  };
-
-  const changeFilter = (event) => {
-    setFilter(event.currentTarget.value.toLowerCase());
-  };
-
-  const normalizedFilter = filter.toLowerCase();
-  const visibleContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(normalizedFilter)
-  );
 
   return (
     <>
       <Header />
       <Container>
-        <Form onSubmit={addContacts} />
+        <Form onSubmit={addContact} />
 
-        <SearchContactForm onChange={changeFilter} value={filter} />
+        <SearchContactForm />
 
         <ToastContainer
           theme="colored"
@@ -72,10 +38,25 @@ function App() {
           progress={undefined}
         />
 
-        <Contacts contacts={visibleContacts} onDeleteContact={deleteContact} />
+        {filter === "" ? (
+          <Contacts contacts={items} deleteContact={deleteContact} />
+        ) : (
+          <Contacts contacts={searchContact(filter)} />
+        )}
       </Container>
     </>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  items: state.contacts.items,
+  filter: state.contacts.filter,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addContact: (value) => dispatch(actions.addContact(value)),
+  deleteContact: (value) => dispatch(actions.deleteContact(value)),
+  changeFilter: (value) => dispatch(actions.changeFilter(value.target.value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
